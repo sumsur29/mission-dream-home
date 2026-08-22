@@ -1,39 +1,43 @@
 # Mission Dream Home — Sample Boards
 
-Every idea from your *Mission dream home* WhatsApp chat, composed into **interior-designer sample boards** — one per room. Each board = a **hero shot + swatches + a palette pulled from the images + material tags**. Shortlist what you love; hand the boards to the architect.
+Every idea from your *Mission dream home* WhatsApp chat, composed into **interior-designer sample boards** — one per room: hero + swatches + a palette pulled from the images + material tags. Shortlist what you love; hand the boards to the architect. Al Furjan aesthetic — sandstone, terracotta, kraft.
 
-Design language: Al Furjan — sandstone, terracotta, kraft boards, masking-tape labels.
+## Shared across all devices (fetch once, everyone sees it)
+Digests + your edits live in a single **Vercel Blob** file, `library.json`. You backfill **once on your Mac**; your phone, Zimi's phone, and the architect all read the same library — no re-fetching, no re-spending.
 
-## What fills automatically
-- **Hero + palette** — every room with a villa photo (or any image) gets a hero and a real, pixel-extracted **paint-chip strip** (hex codes), computed in the browser. No keys, works offline.
-- **Swatches** — the room's other ideas. Reels show as tiles and become real cover thumbnails once digested.
-- **Title / room / summary / material tags / reel palette** — from the digest (Claude) when you run it.
+- The app reads `/api/library` on load and merges it in.
+- Any edit (shortlist, notes, room, added reel) syncs back to the library.
+- Photo palettes + board layout work offline; the cloud just carries the digests + edits.
 
-## Backfill the 117 reels (one pass)
-Menu (⋯) → **Fetch digests for all reels**. It runs each reel through `/api/ingest` (Apify cover+caption → Claude digest → palette + tags), with a progress bar, and fills every board. You can also fetch per-room (the **Fetch** button on an empty palette) or per-reel (in an idea's detail).
+## One-time backfill on your Mac
+Do this after the site is deployed and the keys + Blob store are set in Vercel.
+
+```
+vercel env pull .env.local      # pulls APIFY_TOKEN, ANTHROPIC_API_KEY, BLOB_READ_WRITE_TOKEN
+npm install                     # installs @vercel/blob for the script
+npm run backfill                # fetches all 84 reels → writes library.json to Blob
+```
+It's **resumable** — rerun anytime; it skips reels already done and only fetches new ones. When it finishes, reload the app on any device and every board is filled.
+
+To enrich later reels you add from your phone, either add them in-app (auto-ingests) or rerun `npm run backfill` on the Mac.
 
 ## Deploy
 ```
-cd mission-dream-home
-git init && git add . && git commit -m "sample boards" && git branch -M main
-gh repo create sumsur29/mission-dream-home --public --source=. --remote=origin --push
-vercel && vercel --prod
+git add . && git commit -m "sample boards + shared library" && git push
 ```
-Static frontend + one serverless function; Vercel installs the function deps automatically.
+Vercel auto-deploys. Static frontend + two serverless functions (`/api/ingest`, `/api/library`); Vercel installs their deps automatically.
 
 ## Keys (Vercel → Settings → Environment Variables)
 | Name | For |
 |---|---|
-| `ANTHROPIC_API_KEY` | the digest: title, summary, room, material tags, reel palette |
-| `APIFY_TOKEN` | reading each reel's cover + caption |
-| `ANTHROPIC_MODEL` *(optional)* | default `claude-haiku-4-5`; bump for richer digests |
+| `ANTHROPIC_API_KEY` | digest: title, summary, room, material tags, reel palette |
+| `APIFY_TOKEN` | reading each reel's cover + caption (apify.com → Settings → Integrations) |
+| `ANTHROPIC_MODEL` *(optional)* | default `claude-haiku-4-5` |
 
-Then connect a **Blob store** (Storage → Create → Blob) so covers are rehosted durably, and redeploy. Photo palettes and the whole board layout work even before any keys — the digest just enriches the reels.
+Then Storage → **Create → Blob → Connect** (auto-adds `BLOB_READ_WRITE_TOKEN`). Redeploy so functions pick up the vars.
 
-## What can't come from a reel (stays manual)
-Product names, dimensions, prices, exact paint codes — only if written in the caption. Everything else auto-fills; you correct any field with a tap in an idea's detail.
+## Cost
+Apify free tier (~$5/mo credit) + Haiku (fractions of a cent/reel) → backfilling all 84 costs pennies, once.
 
-## Also
-- ♥ shortlist → the ♥ view composes your favourites as boards, print-ready.
-- Search, per-room reassignment, notes, export (JSON), reset.
-- Installed to home screen it's a **share target** — share a reel and it's ingested into the Inbox.
+## What can't come from a reel
+Product names, dimensions, prices, exact paint codes — only if in the caption. Everything else auto-fills; correct any field with a tap in an idea's detail.

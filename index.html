@@ -244,9 +244,18 @@ function gradOf(id){return GRAD[(SP[id]||{}).accent]||GRAD['--sage']}
 function accentCol(id){return `var(${(SP[id]||{}).accent||'--sage'})`}
 
 /* storage */
-const KEY='mdh_sboard_v1';let mem=null;
+const KEY='mdh_sboard_v1';let mem=null,cloudEnabled=true,synct=null;
 function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):{over:{},add:[],del:[]}}catch(e){return mem||(mem={over:{},add:[],del:[]})}}
-function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){mem=s}}
+function saveLocal(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){mem=s}}
+function save(s){saveLocal(s);scheduleCloud()}
+function scheduleCloud(){if(!cloudEnabled)return;clearTimeout(synct);synct=setTimeout(pushCloud,1200)}
+async function pushCloud(){try{await fetch('/api/library',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({over:STATE.over,add:STATE.add,del:STATE.del})})}catch(e){}}
+async function pullCloud(){try{const r=await fetch('/api/library',{cache:'no-store'});if(!r.ok){cloudEnabled=false;return}const c=await r.json();if(!c||c.error||(!c.over&&!c.add&&!c.del))return;
+  const over={...(STATE.over||{})};for(const k in (c.over||{}))over[k]={...(over[k]||{}),...c.over[k]};
+  const add=[...(STATE.add||[])];(c.add||[]).forEach(it=>{if(!add.some(x=>x.id===it.id))add.push(it)});
+  const del=Array.from(new Set([...(STATE.del||[]),...(c.del||[])]));
+  STATE={over,add,del};saveLocal(STATE);render();
+ }catch(e){cloudEnabled=false}}
 let STATE=load();
 function allItems(){const del=new Set(STATE.del||[]);return [...SEED,...(STATE.add||[])].filter(i=>!del.has(i.id)).map(i=>{const o=(STATE.over||{})[i.id]||{};return {...i,...o,shortlist:o.shortlist!==undefined?o.shortlist:!!i.shortlist,space:o.space||i.space,notes:o.notes!==undefined?o.notes:(i.notes||'')}})}
 function setOver(id,p){STATE.over=STATE.over||{};STATE.over[id]={...(STATE.over[id]||{}),...p};save(STATE)}
@@ -471,7 +480,7 @@ $('#addWho').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#addWho').q
 $('#backfillBtn').onclick=()=>{closeSheets();backfill()};
 $('#printBtn').onclick=()=>{closeSheets();VIEW.name='board';render();setTimeout(()=>window.print(),350)};
 $('#exportBtn').onclick=()=>{const d=allItems().filter(i=>i.shortlist||i.notes).map(i=>({caption:i.caption,room:(SP[i.space]||{}).label,who:i.who,url:i.url,shortlist:i.shortlist,notes:i.notes,palette:i.palette}));const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dream-home-shortlist.json';a.click();closeSheets();toast('Exported '+d.length)};
-$('#resetBtn').onclick=()=>{if(confirm('Reset shortlists, notes, digests and added ideas to the original chat?')){STATE={over:{},add:[],del:[]};save(STATE);closeSheets();VIEW={name:'home',room:null,slOnly:false,q:''};render();toast('Reset done')}};
+$('#resetBtn').onclick=()=>{if(confirm('Reset shortlists, notes, digests and added ideas to the original chat?')){STATE={over:{},add:[],del:[]};saveLocal(STATE);if(cloudEnabled)fetch('/api/library',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({replace:true,over:{},add:[],del:[]})}).catch(()=>{});closeSheets();VIEW={name:'home',room:null,slOnly:false,q:''};render();toast('Reset done')}};
 
 (function(){const p=new URLSearchParams(location.search);const shared=[p.get('url'),p.get('text'),p.get('title')].filter(Boolean).join(' ');const g=parseIg(shared);
  if(g){const it={id:'u'+Date.now().toString(36),date:new Date().toISOString(),who:'Sumeet',mine:true,caption:'',url:'https://www.instagram.com/'+g.t+'/'+g.id+'/',igType:g.t,igId:g.id,photo:null,kind:g.t==='p'?'post':'reel',space:'unsorted',shortlist:false,notes:''};
@@ -479,5 +488,6 @@ $('#resetBtn').onclick=()=>{if(confirm('Reset shortlists, notes, digests and add
   setTimeout(async()=>{try{const dg=await ingest(it.url);if(dg&&!dg.error)setOver(it.id,{thumb:dg.thumb||null,summary:dg.summary||'',tags:dg.tags||[],palette:dg.palette||[],space:dg.room||'unsorted',caption:dg.title||''})}catch(e){}VIEW={name:'room',room:'unsorted',slOnly:false,q:''};render();toast('Saved from share')},150);}
 })();
 render();
+pullCloud();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script></body></html>
