@@ -1,0 +1,483 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mission Dream Home</title>
+<meta name="theme-color" content="#E7D7BE">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+ --sand:#E7D7BE;--sand2:#DECBAD;--paper:#F4EAD6;--kraft:#D9C19A;--kraft2:#CDB289;
+ --board:#F6EFE1;--ink:#3B2E1F;--ink2:#7C6A4F;--line:#CDB893;--line2:#E4D6BC;
+ --blush:#C17C77;--sage:#7B8C6A;--brass:#A9823E;--brass2:#C9A868;--terra:#B85B34;--terra2:#D07A4E;--cream:#F7EFDF;--night:#2A2014;
+ --shadow:0 1px 2px rgba(59,46,32,.06),0 12px 30px -16px rgba(59,46,32,.34);
+ --shadow-lg:0 26px 60px -28px rgba(59,46,32,.5);
+}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--sand);color:var(--ink);font-family:Inter,system-ui,sans-serif;font-size:15px;-webkit-font-smoothing:antialiased;padding-bottom:90px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra);font-weight:600}
+.mono{font-family:'Space Mono',monospace}
+button{font-family:inherit;cursor:pointer}
+img{max-width:100%}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:40;background:linear-gradient(var(--sand) 72%,rgba(231,215,190,0));padding-top:max(12px,env(safe-area-inset-top))}
+.tb{display:flex;align-items:center;gap:11px;padding:8px 0 12px}
+.brand{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:auto}
+.spine{width:5px;height:34px;border-radius:3px;background:linear-gradient(var(--blush) 0 33%,var(--sage) 33% 66%,var(--brass) 66% 100%)}
+.brand .n1{font-family:Fraunces;font-weight:500;font-size:19px;line-height:1}
+.brand .n2{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink2);margin-top:3px}
+.iconbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--paper);display:grid;place-items:center;color:var(--ink);flex:0 0 auto;transition:.15s}
+.iconbtn svg{width:19px;height:19px;stroke:var(--ink);fill:none;stroke-width:1.7}
+.iconbtn:hover{border-color:var(--brass2)}.iconbtn:active{transform:scale(.94)}
+.iconbtn.on{background:var(--night);border-color:var(--night)}.iconbtn.on svg{stroke:var(--cream)}
+.searchwrap{overflow:hidden;max-height:0;transition:max-height .25s}.searchwrap.open{max-height:70px}
+.search{position:relative;margin:0 0 12px}
+.search input{width:100%;height:46px;border-radius:13px;border:1px solid var(--line);background:var(--paper);padding:0 14px 0 42px;font:inherit;color:var(--ink);outline:none}
+.search input:focus{border-color:var(--brass2);box-shadow:0 0 0 3px rgba(201,168,104,.25)}
+.search svg{position:absolute;left:14px;top:13px;width:19px;height:19px;stroke:var(--ink2);fill:none;stroke-width:1.7}
+
+/* intro */
+.intro{padding:12px 0 4px}
+.intro h1{font-family:Fraunces;font-weight:500;font-size:clamp(28px,6.5vw,46px);line-height:1.02;letter-spacing:-.02em;margin:6px 0 8px}
+.intro h1 em{font-style:italic;color:var(--blush)}
+.intro p{color:var(--ink2);max-width:46ch;margin:0}
+.intro .stat{margin-top:14px;display:flex;gap:20px;font-size:13px;color:var(--ink2)}
+.intro .stat b{font-family:Fraunces;font-size:20px;color:var(--ink);font-weight:500;display:block}
+
+/* sample board */
+.kraft{background:linear-gradient(135deg,var(--kraft),var(--kraft2));border-radius:16px;padding:16px;margin:16px 0;box-shadow:var(--shadow)}
+.sboard{position:relative;background:var(--board);border-radius:11px;padding:22px 20px 20px;
+  display:grid;grid-template-columns:1.25fr 1fr;gap:14px;box-shadow:0 10px 24px -18px rgba(59,46,32,.5)}
+@media(max-width:640px){.sboard{grid-template-columns:1fr;padding:20px 15px 16px}}
+.tapelbl{position:absolute;top:-12px;left:24px;background:rgba(169,130,62,.32);border:1px solid rgba(169,130,62,.32);
+  padding:5px 15px;font-family:Fraunces;font-style:italic;font-size:16px;transform:rotate(-1.6deg);color:var(--ink);z-index:2}
+.bmeta{position:absolute;top:-8px;right:20px;font-size:11.5px;color:var(--ink2);background:var(--board);padding:3px 8px;border-radius:20px;border:1px solid var(--line2);cursor:pointer;z-index:2}
+.bmeta b{color:var(--terra);font-weight:600}
+.hero{grid-row:span 2;border-radius:8px;overflow:hidden;position:relative;min-height:230px;max-height:420px;cursor:pointer;background:var(--night)}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.hero .ph{position:absolute;inset:0}
+.hero .heart,.swtile .heart{position:absolute;top:9px;right:9px;z-index:3}
+.swatches{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-content:start}
+.swtile{border-radius:7px;overflow:hidden;background:var(--cream);box-shadow:0 6px 14px -11px rgba(59,46,32,.5);position:relative;cursor:pointer}
+.swtile img{width:100%;display:block;aspect-ratio:1;object-fit:cover}
+.swtile .ph{aspect-ratio:1;position:relative}
+.swtile .cp{font-size:10.5px;padding:5px 7px 6px;color:var(--ink);font-family:Fraunces;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.swtile.more{display:grid;place-items:center;background:var(--sand2);aspect-ratio:1;font-family:Fraunces;font-style:italic;color:var(--ink);font-size:15px}
+.ph{background:var(--pg,linear-gradient(155deg,#4f5a41,#2a2014))}
+.gi{position:absolute;inset:0 0 14px;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.gi svg{width:40px;height:40px;stroke:var(--cream);fill:none;stroke-width:1.05;opacity:.5}
+.swtile .gi{inset:0 0 20px}.swtile .gi svg{width:30px;height:30px}
+.palstrip{grid-column:1/-1;display:flex;border-radius:8px;overflow:hidden;height:42px;box-shadow:0 6px 14px -11px rgba(59,46,32,.4);border:1px solid rgba(59,46,32,.1)}
+.paint{flex:1;position:relative;min-width:0}
+.paint span{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-family:'Space Mono',monospace;font-size:7.5px;color:rgba(0,0,0,.42);letter-spacing:.02em}
+.palempty{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink2);background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:9px 12px}
+.palempty button{border:0;background:var(--night);color:var(--cream);border-radius:16px;padding:6px 12px;font-size:12px;margin-left:auto}
+.mats{grid-column:1/-1;display:flex;gap:7px;flex-wrap:wrap}
+.mat{font-size:11px;background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:5px 9px;font-family:'Space Mono',monospace;color:var(--ink2)}
+.heart{width:30px;height:30px;border-radius:50%;background:rgba(246,239,225,.94);border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow)}
+.heart svg{width:15px;height:15px;stroke:var(--blush);fill:none;stroke-width:1.8}
+.heart.on svg,.star .heart svg{fill:var(--blush)}
+.kindtag{position:absolute;top:8px;left:8px;z-index:2;font-size:9px;letter-spacing:.1em;text-transform:uppercase;background:rgba(42,32,20,.66);color:var(--cream);padding:3px 6px;border-radius:5px}
+
+/* room view */
+.backbtn{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:var(--ink2);font-size:13px;padding:8px 2px}
+.backbtn svg{width:16px;height:16px;stroke:var(--ink2);fill:none;stroke-width:2}
+.rtools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:6px 2px 14px}
+.pill{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:8px 13px;font-size:13px;color:var(--ink);display:inline-flex;align-items:center;gap:7px}
+.pill.on{background:var(--blush);border-color:var(--blush);color:#fff}.pill.on svg{fill:#fff;stroke:#fff}
+.pill svg{width:14px;height:14px;fill:none;stroke:var(--blush);stroke-width:1.8}
+.rcount{margin-left:auto;font-size:12.5px;color:var(--ink2)}
+.tilegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+@media(max-width:640px){.tilegrid{grid-template-columns:1fr 1fr;gap:12px}}
+.tile{border-radius:11px;overflow:hidden;background:var(--cream);border:1px solid var(--line2);box-shadow:var(--shadow);position:relative;cursor:pointer}
+.tile img{width:100%;display:block;aspect-ratio:4/5;object-fit:cover}
+.tile .ph{aspect-ratio:4/5;position:relative}
+.tile .cp{font-family:Fraunces;font-size:14px;padding:9px 10px 2px;line-height:1.2}
+.tile .wh{font-size:11px;color:var(--ink2);padding:0 10px 10px}
+
+/* fab + sheets */
+.fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:45;height:52px;padding:0 19px 0 17px;border:0;border-radius:15px;background:var(--night);color:var(--cream);font-weight:500;font-size:15px;display:flex;align-items:center;gap:9px;box-shadow:0 12px 30px -10px rgba(42,32,20,.6)}
+.fab svg{width:20px;height:20px;stroke:var(--terra2);stroke-width:2.2;fill:none}
+.scrim{position:fixed;inset:0;background:rgba(42,32,20,.5);backdrop-filter:blur(3px);z-index:60;opacity:0;pointer-events:none;transition:.2s}
+.scrim.show{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:var(--sand);border-radius:22px 22px 0 0;max-height:92vh;overflow:auto;transform:translateY(101%);transition:transform .28s cubic-bezier(.2,.85,.2,1);box-shadow:0 -14px 44px -14px rgba(42,32,20,.45)}
+.sheet.show{transform:none}
+.sheet-in{max-width:640px;margin:0 auto;padding:8px 18px calc(26px + env(safe-area-inset-bottom))}
+.grab{width:38px;height:4px;border-radius:2px;background:var(--line);margin:8px auto 8px}
+.sheet h2{font-family:Fraunces;font-weight:500;font-size:23px;margin:6px 2px 4px}
+.field{margin:14px 0}
+.field label{display:block;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);margin-bottom:6px}
+.field input,.field textarea{width:100%;border:1px solid var(--line);background:var(--paper);border-radius:12px;padding:12px;font:inherit;color:var(--ink);outline:none}
+.field textarea{min-height:76px;resize:vertical}
+.field input:focus,.field textarea:focus{border-color:var(--brass2);box-shadow:0 0 0 3px rgba(201,168,104,.22)}
+.spacepick{display:flex;flex-wrap:wrap;gap:7px}
+.spacepick button{border:1px solid var(--line);background:var(--paper);border-radius:22px;padding:8px 12px;font-size:12.5px;color:var(--ink);display:inline-flex;align-items:center;gap:6px}
+.spacepick button .sw{width:9px;height:9px;border-radius:2px}
+.spacepick button.sel{background:var(--night);color:var(--cream);border-color:var(--night)}
+.btn{width:100%;height:50px;border:0;border-radius:13px;background:var(--blush);color:#fff;font:inherit;font-weight:500;font-size:15px;margin-top:6px}
+.btn.dark{background:var(--night);color:var(--cream)}.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:var(--blush);border:1px solid var(--blush)}
+.btn.mini{height:44px;font-size:14px}
+.rowbtns{display:flex;gap:10px}.rowbtns .btn{margin-top:0}
+.det-hero{border-radius:14px;overflow:hidden;border:1px solid var(--line);margin:6px 0 4px;background:var(--night)}
+.det-hero img{width:100%;display:block}
+.link-out{display:inline-flex;align-items:center;gap:6px;color:var(--brass);text-decoration:none;font-size:13px;font-weight:500;margin:9px 2px}
+.link-out svg{width:15px;height:15px;stroke:var(--brass);fill:none;stroke-width:1.8}
+.digest{background:var(--paper);border:1px solid var(--line2);border-radius:12px;padding:12px 13px;margin:12px 0 2px}
+.digest .lb{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--terra);font-weight:600;margin-bottom:6px}
+.digest p{margin:0 0 9px;font-size:14px;line-height:1.45}
+.chips{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.swatchbig{width:22px;height:22px;border-radius:6px;border:1px solid rgba(59,46,32,.14)}
+.tagchip{font-size:11.5px;color:var(--ink2);background:var(--sand2);border-radius:20px;padding:4px 9px;font-family:'Space Mono',monospace}
+.dmeta{display:flex;align-items:center;gap:8px;color:var(--ink2);font-size:12.5px;margin:12px 2px 2px}
+.who{display:inline-flex;align-items:center;gap:5px}
+.dot{width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:8.5px;font-weight:600;color:#fff}
+.dot.Z{background:var(--blush)}.dot.S{background:var(--sage)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px;opacity:.9}
+@keyframes sp{to{transform:rotate(360deg)}}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);background:var(--night);color:var(--cream);padding:11px 18px;border-radius:12px;font-size:13.5px;z-index:80;opacity:0;transition:.25s;box-shadow:var(--shadow);pointer-events:none;max-width:88vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+.prog{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom));max-width:400px;margin:0 auto;background:var(--night);color:var(--cream);border-radius:12px;padding:12px 14px;z-index:79;display:none;box-shadow:var(--shadow-lg)}
+.prog.show{display:block}
+.prog .bar{height:5px;background:rgba(255,255,255,.2);border-radius:3px;margin-top:8px;overflow:hidden}
+.prog .bar i{display:block;height:100%;background:var(--terra2);width:0;transition:width .2s}
+.empty{text-align:center;padding:56px 20px;color:var(--ink2)}
+.empty .big{font-family:Fraunces;font-style:italic;font-size:22px;color:var(--ink);margin-bottom:8px}
+@media print{.topbar,.fab,.bmeta,.heart,.rtools,.backbtn,.toast,.prog,.searchwrap{display:none!important}body{background:#fff;padding:0}.kraft{box-shadow:none}}
+</style></head>
+<body>
+<div class="topbar"><div class="wrap">
+  <div class="tb">
+    <div class="brand" id="brand"><div class="spine"></div><div><div class="n1">Mission Dream Home</div><div class="n2">Al Furjan · sample boards</div></div></div>
+    <button class="iconbtn" id="searchBtn"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></button>
+    <button class="iconbtn" id="boardBtn" title="Shortlist"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.4 8.5 2 5 5.3 5c2 0 3.2 1.1 4.7 3 1.5-1.9 2.7-3 4.7-3C18 5 19.6 8.5 22 11.9 19.5 16.4 12 21 12 21z"/></svg></button>
+    <button class="iconbtn" id="menuBtn"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg></button>
+  </div>
+  <div class="searchwrap" id="searchwrap"><div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg><input id="q" type="search" placeholder="Search rooms, ideas, Zimi…" autocomplete="off"></div></div>
+</div></div>
+<main class="wrap" id="main"></main>
+<button class="fab" id="fab"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add idea</button>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="addSheet"><div class="sheet-in">
+  <div class="grab"></div><h2>Add an idea</h2>
+  <p style="color:var(--ink2);font-size:13px;margin:2px 2px 4px">Paste an Instagram link — the digest pulls the cover, palette and a summary, then files it into a room.</p>
+  <div class="field"><label>Instagram link</label><input id="addUrl" type="url" placeholder="https://www.instagram.com/reel/…"></div>
+  <div class="field"><label>What is it? (optional)</label><input id="addCap" type="text" placeholder="e.g. Curtain holders"></div>
+  <div class="field"><label>Room</label><div class="spacepick" id="addSpaces"></div></div>
+  <div class="field"><label>Added by</label><div class="spacepick" id="addWho"><button data-w="Sumeet" class="sel">Sumeet</button><button data-w="Zimi">Zimi</button></div></div>
+  <button class="btn dark" id="addSave">Save idea</button>
+</div></div>
+<div class="sheet" id="detSheet"><div class="sheet-in" id="detIn"></div></div>
+<div class="sheet" id="menuSheet"><div class="sheet-in">
+  <div class="grab"></div><h2>Mission Dream Home</h2>
+  <p style="color:var(--ink2);font-size:13px;margin:2px 2px 14px">Every idea from your chat, arranged as interior-designer sample boards — one per room. Palettes are pulled from the images; shortlist what you love and hand the board to the architect.</p>
+  <div class="rowbtns" style="flex-direction:column;gap:10px">
+    <button class="btn dark" id="backfillBtn">✦ Fetch digests for all reels</button>
+    <button class="btn ghost" id="exportBtn">Export shortlist &amp; notes (JSON)</button>
+    <button class="btn ghost" id="printBtn">Print the boards</button>
+    <button class="btn danger" id="resetBtn">Reset to original chat data</button>
+  </div>
+  <p style="color:var(--ink2);font-size:11.5px;margin:16px 2px 0;text-align:center">Digests &amp; auto-palette for reels need the API keys set in Vercel (see README). Palettes for your photos work offline.</p>
+</div></div>
+<div class="toast" id="toast"></div>
+<div class="prog" id="prog"><div id="progTxt">Reading reels…</div><div class="bar"><i id="progBar"></i></div></div>
+
+<script>
+const SEED=[{"id":"a588187b00","date":"2026-08-18T16:55:46","who":"Zimi","caption":"Lamp","photo":"photos/00000143-PHOTO-2026-08-18-16-55-46.jpg","kind":"photo","space":"lighting"},{"id":"d574577e8e","date":"2026-08-13T18:07:27","who":"Zimi","caption":"","photo":"photos/00000142-PHOTO-2026-08-13-18-07-27.jpg","kind":"photo","space":"unsorted"},{"id":"18b27d81cd","date":"2026-07-29T12:36:39","who":"Sumeet","mine":true,"caption":"Terrace ideas","url":"https://www.instagram.com/p/DbBV8yziMWH/?igsh=MXc5MXVxbnIxMjE1cg==","igType":"p","igId":"DbBV8yziMWH","kind":"post","space":"terrace"},{"id":"a7207e9cc4","date":"2026-07-27T11:36:46","who":"Zimi","caption":"Wall art","url":"https://www.instagram.com/reel/DaDWHrftlHQ/","igType":"reel","igId":"DaDWHrftlHQ","kind":"reel","space":"walls"},{"id":"0904321b22","date":"2026-07-26T14:51:11","who":"Zimi","caption":"Pantry","url":"https://www.instagram.com/reel/DZBwXuttJJO/","igType":"reel","igId":"DZBwXuttJJO","kind":"reel","space":"kitchen"},{"id":"b96310962f","date":"2026-07-26T08:14:20","who":"Zimi","caption":"Backyard glasses","photo":"photos/00000138-PHOTO-2026-07-26-08-14-20.jpg","kind":"photo","space":"garden"},{"id":"b1caaca712","date":"2026-07-24T19:44:22","who":"Zimi","caption":"Wall hand painting","url":"https://www.instagram.com/reel/DapvibKpO-J/","igType":"reel","igId":"DapvibKpO-J","kind":"reel","space":"walls"},{"id":"2db9a8fd2a","date":"2026-07-22T20:01:14","who":"Sumeet","mine":true,"caption":"Doors","url":"https://www.instagram.com/reel/DbBZBLCzjhY/?igsh=MWppcHd2dTI0NHQ5NA==","igType":"reel","igId":"DbBZBLCzjhY","kind":"reel","space":"openings"},{"id":"9241ed82dc","date":"2026-07-22T08:28:20","who":"Zimi","caption":"Jhoola","photo":"photos/00000135-PHOTO-2026-07-22-08-28-20.jpg","kind":"photo","space":"furniture"},{"id":"3208b8b5c7","date":"2026-07-18T20:38:34","who":"Sumeet","mine":true,"caption":"Lights","url":"https://www.instagram.com/reel/DaTQoUrB-bo/?igsh=amp0Y3ljMGswdG1z","igType":"reel","igId":"DaTQoUrB-bo","kind":"reel","space":"lighting"},{"id":"21555dfbb2","date":"2026-07-18T18:41:05","who":"Sumeet","mine":true,"caption":"Curtain holders","url":"https://www.instagram.com/reel/DZVIfvwxjJj/?igsh=MWltYzFubWdpdTJwYQ==","igType":"reel","igId":"DZVIfvwxjJj","kind":"reel","space":"openings"},{"id":"30910f52f8","date":"2026-07-18T17:20:08","who":"Zimi","caption":"Blush pink and sage green","photo":"photos/00000132-PHOTO-2026-07-18-17-20-08.jpg","kind":"photo","space":"palette"},{"id":"c1b350d81d","date":"2026-07-14T19:18:40","who":"Zimi","caption":"Side walk","photo":"photos/00000131-PHOTO-2026-07-14-19-18-40.jpg","kind":"photo","space":"garden"},{"id":"e4b6bfebe3","date":"2026-07-14T16:07:12","who":"Zimi","caption":"Kohler Aquifer 4 in 1 kitchen faucet tap sink","kind":"note","space":"notes"},{"id":"a81d73c06d","date":"2026-07-14T15:58:50","who":"Zimi","caption":"Lime wash finish version of Asian paints","photo":"photos/00000129-PHOTO-2026-07-14-15-58-50.jpg","kind":"photo","space":"palette"},{"id":"b3eca5e3c2","date":"2026-07-14T11:13:11","who":"Zimi","caption":"Paints","url":"https://www.instagram.com/p/DamVzVAIPDG/?img_index=2","igType":"p","igId":"DamVzVAIPDG","kind":"post","space":"palette"},{"id":"41375085a0","date":"2026-07-13T20:04:56","who":"Zimi","caption":"Lamp","photo":"photos/00000127-PHOTO-2026-07-13-20-04-56.jpg","kind":"photo","space":"lighting"},{"id":"2035176140","date":"2026-07-10T11:15:09","who":"Zimi","caption":"Tiles","url":"https://www.instagram.com/reel/DaegY1UMR-e/","igType":"reel","igId":"DaegY1UMR-e","kind":"reel","space":"tiles"},{"id":"d4d3886ac5","date":"2026-07-05T13:49:01","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/theconcreatestory?igsh=ajhxZjJkcjQybmZp","kind":"post","space":"unsorted"},{"id":"eb08269f2c","date":"2026-07-02T18:46:44","who":"Sumeet","mine":true,"caption":"","url":"https://jeadesign.com/","kind":"link","space":"designers"},{"id":"ce89880b8a","date":"2026-07-01T22:41:40","who":"Sumeet","mine":true,"caption":"","url":"https://www.aswinisasikumar.com/","kind":"link","space":"designers"},{"id":"124132bd13","date":"2026-07-01T13:46:48","who":"Zimi","caption":"Interiors","url":"https://www.instagram.com/reel/DZPI_uAKmHA/","igType":"reel","igId":"DZPI_uAKmHA","kind":"reel","space":"palette"},{"id":"c41eac6530","date":"2026-06-26T18:30:48","who":"Zimi","caption":"Tiles","url":"https://www.instagram.com/p/DaCMIkyCFm5/?img_index=13","igType":"p","igId":"DaCMIkyCFm5","kind":"post","space":"tiles"},{"id":"700dba9237","date":"2026-06-26T17:57:19","who":"Sumeet","mine":true,"caption":"Entry gate","url":"https://www.instagram.com/p/DZxBeXCmGCY/?igsh=MXd4bHQ4dXNtczZ6Zw==","igType":"p","igId":"DZxBeXCmGCY","kind":"post","space":"entrance"},{"id":"11f511d2ac","date":"2026-06-24T21:31:23","who":"Sumeet","mine":true,"caption":"Washroom sink steel","url":"https://www.instagram.com/reel/DZ3xFt4SyAA/?igsh=NmFqNGI1M3hpbnhl","igType":"reel","igId":"DZ3xFt4SyAA","kind":"reel","space":"bathrooms"},{"id":"b4a085d934","date":"2026-06-24T20:30:52","who":"Sumeet","mine":true,"caption":"Jharoka","url":"https://www.instagram.com/p/DZ7hRPwjF0Z/?img_index=1&igsh=MTFtZ3pvZTc5OHc1eQ==","igType":"p","igId":"DZ7hRPwjF0Z","kind":"post","space":"openings"},{"id":"33791917b9","date":"2026-06-23T20:05:38","who":"Sumeet","mine":true,"caption":"Glass partitions","url":"https://www.instagram.com/reel/DZ7gGqmq-hd/?igsh=MTI4aHJtYmM3Z2V2bQ==","igType":"reel","igId":"DZ7gGqmq-hd","kind":"reel","space":"structure"},{"id":"f4988c1d8d","date":"2026-06-15T19:21:22","who":"Zimi","caption":"Traditional tiles","url":"https://www.instagram.com/reel/DW1sMtPp8Wb/","igType":"reel","igId":"DW1sMtPp8Wb","kind":"reel","space":"tiles"},{"id":"d72f21feb3","date":"2026-06-11T07:45:20","who":"Sumeet","mine":true,"caption":"Walls","url":"https://www.instagram.com/reel/DZZdTMusRoR/?igsh=am11MXdjMTVvN3p6","igType":"reel","igId":"DZZdTMusRoR","kind":"reel","space":"walls"},{"id":"888cd99b0b","date":"2026-06-08T09:40:19","who":"Zimi","caption":"For interiors","url":"https://www.instagram.com/reel/DY4NZG_TixW/","igType":"reel","igId":"DY4NZG_TixW","kind":"reel","space":"palette"},{"id":"af29a1045a","date":"2026-06-07T10:27:08","who":"Zimi","caption":"Colorful interiors","url":"https://www.instagram.com/reel/DW_twvGjdY1/?igsh=MTBrbHM5M3kwOW8xcQ==","igType":"reel","igId":"DW_twvGjdY1","kind":"reel","space":"palette"},{"id":"835ae6d86a","date":"2026-06-06T19:37:28","who":"Zimi","caption":"Interior designers from India","url":"https://www.instagram.com/reel/DZJhHo_OH2T/","igType":"reel","igId":"DZJhHo_OH2T","kind":"reel","space":"designers"},{"id":"e805f42980","date":"2026-06-06T19:35:26","who":"Zimi","caption":"Wallpapers","url":"https://www.instagram.com/reel/DY-eefzNTUk/","igType":"reel","igId":"DY-eefzNTUk","kind":"reel","space":"walls"},{"id":"372d51ab5a","date":"2026-05-28T08:55:17","who":"Zimi","caption":"","photo":"photos/00000105-PHOTO-2026-05-28-08-55-17.jpg","kind":"photo","space":"unsorted"},{"id":"968a7770ed","date":"2026-05-28T08:43:51","who":"Zimi","caption":"Mosaic for home walls","url":"http://www.thestonecasa.com/mural-mosaic.html?utm_source=ig&utm_medium=social&utm_content=link_in_bio","kind":"link","space":"walls"},{"id":"272293b354","date":"2026-05-26T20:12:14","who":"Zimi","caption":"Kitchen crockery","url":"https://www.pinklay.com/collections/tableware?utm_medium=paid&utm_id=120242012502670774&utm_content=120242015835550774&utm_term=120242014754830774&utm_campaign=120242012502670774&campaign_id=120242012502670774&ad_id=120242015835550774","kind":"link","space":"kitchen"},{"id":"f09434024b","date":"2026-05-24T22:33:04","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYuG7GWMy-T/?igsh=d2syMTZyODJjeXB2","igType":"reel","igId":"DYuG7GWMy-T","kind":"reel","space":"unsorted"},{"id":"e3e0253b92","date":"2026-05-21T19:44:34","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYkC3VPPu3h/?igsh=aG9qZTE2ejhrMWNm","igType":"reel","igId":"DYkC3VPPu3h","kind":"reel","space":"unsorted"},{"id":"b3c0ae425c","date":"2026-05-21T19:29:17","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DWv8x0wCJ4w/?igsh=emt6YWlweW9hM25s","igType":"reel","igId":"DWv8x0wCJ4w","kind":"reel","space":"unsorted"},{"id":"584f68a7e0","date":"2026-05-19T19:23:40","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DXTSsFeEUzh/?igsh=MWl4Z2ZvcDRxeWc4Zg==","igType":"reel","igId":"DXTSsFeEUzh","kind":"reel","space":"unsorted"},{"id":"499df39480","date":"2026-05-18T19:35:38","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DVXX31jEoI2/?igsh=MWV5cXcwYW5taGpqeg==","igType":"reel","igId":"DVXX31jEoI2","kind":"reel","space":"unsorted"},{"id":"0a995ead17","date":"2026-05-18T14:39:30","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYZLhvcgLQ-/?igsh=MW0xeG9xbmx1c2Y3ZQ==","igType":"reel","igId":"DYZLhvcgLQ-","kind":"reel","space":"unsorted"},{"id":"032ab0c49d","date":"2026-05-18T14:38:05","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYZkiuIxh3f/?igsh=ZDIxdGFveG9xZTgy","igType":"reel","igId":"DYZkiuIxh3f","kind":"reel","space":"unsorted"},{"id":"69b987d1a7","date":"2026-05-17T23:01:30","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DXHbTAXjdun/?igsh=aDJyYzJtMjU4MzFv","igType":"reel","igId":"DXHbTAXjdun","kind":"reel","space":"unsorted"},{"id":"c93f66fea3","date":"2026-05-17T22:25:14","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYHwV6lTrzy/?igsh=MTU5ZDY5aGw0ZHp6dQ==","igType":"reel","igId":"DYHwV6lTrzy","kind":"reel","space":"unsorted"},{"id":"8b15aac33e","date":"2026-05-17T22:22:54","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DWOLARAACVY/?igsh=MzRsZ2pjcWZyaHEw","igType":"reel","igId":"DWOLARAACVY","kind":"reel","space":"unsorted"},{"id":"75c1a3c593","date":"2026-05-17T20:41:35","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DX6se0JhD3v/?igsh=amo5NzF5NHg5ZHRu","igType":"reel","igId":"DX6se0JhD3v","kind":"reel","space":"unsorted"},{"id":"4db8763baf","date":"2026-05-17T16:40:00","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYNA9TYNtM5/?igsh=bmx4YmttdmtobXRu","igType":"reel","igId":"DYNA9TYNtM5","kind":"reel","space":"unsorted"},{"id":"a9ba5e1466","date":"2026-05-17T16:37:53","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DYXSj-tgyDQ/?igsh=N20ycjlpamlhazhz","igType":"reel","igId":"DYXSj-tgyDQ","kind":"reel","space":"unsorted"},{"id":"3f9a6795a1","date":"2026-05-11T12:58:45","who":"Zimi","caption":"Tiles limestone","url":"https://www.instagram.com/reel/DX0b5E2vT5N/?igsh=cGRpMnd1MTZobzFu","igType":"reel","igId":"DX0b5E2vT5N","kind":"reel","space":"tiles"},{"id":"3b0e8a5d35","date":"2026-05-10T11:44:24","who":"Zimi","caption":"Almirah","photo":"photos/00000088-PHOTO-2026-05-10-11-44-24.jpg","kind":"photo","space":"wardrobes"},{"id":"fe64241893","date":"2026-05-10T11:14:44","who":"Zimi","caption":"Almirah","url":"https://www.instagram.com/reel/DVBGPorkYlu/?igsh=ejhwbzB2a3hmYXpn","igType":"reel","igId":"DVBGPorkYlu","kind":"reel","space":"wardrobes"},{"id":"03d061c061","date":"2026-05-09T12:27:59","who":"Zimi","caption":"Tiles","url":"https://www.instagram.com/p/DYFBxdajKOS/?img_index=7&igsh=ZW93MTZjMGcyYXJ0","igType":"p","igId":"DYFBxdajKOS","kind":"post","space":"tiles"},{"id":"bd7184396a","date":"2026-03-08T11:38:08","who":"Zimi","caption":"Sofas","url":"https://www.instagram.com/reel/DTCj4aiEgyV/?igsh=cHg1Z3N1MDV1Zmhh","igType":"reel","igId":"DTCj4aiEgyV","kind":"reel","space":"living"},{"id":"061b9ed9a4","date":"2026-03-08T08:31:41","who":"Zimi","caption":"Lighting","url":"https://www.instagram.com/reel/DVRBgUek8FI/?igsh=MTdsemp6aHR2aHl6Yw==","igType":"reel","igId":"DVRBgUek8FI","kind":"reel","space":"lighting"},{"id":"3cf8c9c683","date":"2026-03-02T19:00:55","who":"Zimi","caption":"Modern Indian","url":"https://www.instagram.com/reel/DUugCsZDCKr/?igsh=ZzZxcjN2YjE3cjB2","igType":"reel","igId":"DUugCsZDCKr","kind":"reel","space":"palette"},{"id":"aab22d65b9","date":"2026-01-31T17:29:37","who":"Zimi","caption":"Small backyard design","url":"https://www.instagram.com/reel/DTpn-8LjCVp/?igsh=MWgwcDdqeDYwdnUxaw==","igType":"reel","igId":"DTpn-8LjCVp","kind":"reel","space":"garden"},{"id":"3b4bca18c6","date":"2026-01-30T20:31:15","who":"Zimi","caption":"Backyard ideas","url":"https://www.instagram.com/reel/DUGBhPyDZ66/?igsh=MXFoc3E1c3pudzR1bg==","igType":"reel","igId":"DUGBhPyDZ66","kind":"reel","space":"garden"},{"id":"2cf4828019","date":"2026-01-30T20:21:16","who":"Zimi","caption":"Backyard ideas","url":"https://www.instagram.com/reel/DUFKH1-CZmG/?igsh=NHd3bjg4cDA1cWNv","igType":"reel","igId":"DUFKH1-CZmG","kind":"reel","space":"garden"},{"id":"a66724c95f","date":"2026-01-28T21:01:07","who":"Zimi","caption":"Bunk bed","url":"https://www.instagram.com/reel/DQzC48djKy_/?igsh=NDFidnpjM3E3dGEy","igType":"reel","igId":"DQzC48djKy_","kind":"reel","space":"kids"},{"id":"edd23a2712","date":"2026-01-26T15:37:36","who":"Zimi","caption":"Wall art with wallpaper","url":"https://www.instagram.com/reel/DDE5tF_ilPv/?igsh=MTdwcmYycHNjdXRwNA==","igType":"reel","igId":"DDE5tF_ilPv","kind":"reel","space":"walls"},{"id":"e88316c044","date":"2025-12-14T19:15:42","who":"Sumeet","mine":true,"caption":"Divider","url":"https://www.instagram.com/reel/DSKsmL2gqru/?igsh=MTB0MGo5eXNia3BuaQ==","igType":"reel","igId":"DSKsmL2gqru","kind":"reel","space":"structure"},{"id":"920d152614","date":"2025-12-14T19:13:30","who":"Sumeet","mine":true,"caption":"Column","url":"https://www.instagram.com/reel/DRGjSyfEis5/?igsh=bTVyZzdkcjBtNzBp","igType":"reel","igId":"DRGjSyfEis5","kind":"reel","space":"structure"},{"id":"957ecb5ecb","date":"2025-11-20T18:39:10","who":"Sumeet","mine":true,"caption":"Pool tiles","url":"https://www.instagram.com/reel/DQsCFOxEoGG/?igsh=aGoxOG5zZ2dhdWVk","igType":"reel","igId":"DQsCFOxEoGG","kind":"reel","space":"pool"},{"id":"93a62148f8","date":"2025-11-16T22:55:59","who":"Sumeet","mine":true,"caption":"Switches","url":"https://www.instagram.com/reel/DREC-0ACCUL/?igsh=MW51bG1sOHVlNGZ6bA==","igType":"reel","igId":"DREC-0ACCUL","kind":"reel","space":"lighting"},{"id":"99785da69f","date":"2025-11-16T08:18:39","who":"Zimi","caption":"Indian wall art","url":"https://www.instagram.com/p/DLY7JvUoIIr/?igsh=MTJiODYwczVjcG91Mg==","igType":"p","igId":"DLY7JvUoIIr","kind":"post","space":"walls"},{"id":"ed36fe0c9a","date":"2025-11-11T20:27:39","who":"Zimi","caption":"Authentic Indian style","url":"https://www.instagram.com/p/DQTbzWcEpLw/?img_index=8&igsh=MXFkcnVjbHV3eDRtdw==","igType":"p","igId":"DQTbzWcEpLw","kind":"post","space":"palette"},{"id":"998f665136","date":"2025-11-09T15:26:29","who":"Zimi","caption":"Indian decals","url":"https://www.instagram.com/reel/DQnpph-iHFU/?igsh=MXJodWt4eWo4eHM4bw==","igType":"reel","igId":"DQnpph-iHFU","kind":"reel","space":"walls"},{"id":"c36c549c5f","date":"2025-10-16T20:20:09","who":"Zimi","caption":"Bar","url":"https://www.instagram.com/reel/DNP3WThPPS7/?igsh=enIwZ3gxOWxoY3Jh","igType":"reel","igId":"DNP3WThPPS7","kind":"reel","space":"dining"},{"id":"d3f81a812c","date":"2025-10-15T17:51:42","who":"Sumeet","mine":true,"caption":"Mandir with water body","url":"https://www.instagram.com/reel/DPxrtv0CMAF/?igsh=NmxzaGt0ZXkxNXp2","igType":"reel","igId":"DPxrtv0CMAF","kind":"reel","space":"mandir"},{"id":"679d7204e2","date":"2025-10-11T07:27:19","who":"Zimi","caption":"Pantry door","url":"https://www.instagram.com/reel/DMqEMgTqTR-/?igsh=NDNzejVqNGdqeHp4","igType":"reel","igId":"DMqEMgTqTR-","kind":"reel","space":"kitchen"},{"id":"436f83b1f6","date":"2025-10-10T23:59:36","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DNqF_8zz3w6/?igsh=MWtkdW82anZqM2RyNg==","igType":"reel","igId":"DNqF_8zz3w6","kind":"reel","space":"unsorted"},{"id":"49d8e9924b","date":"2025-10-09T18:10:37","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DPbouKwCBBR/?igsh=MXJzdmt1cTk1dmJ6OA==","igType":"reel","igId":"DPbouKwCBBR","kind":"reel","space":"unsorted"},{"id":"0b80fd953c","date":"2025-10-08T17:27:23","who":"Sumeet","mine":true,"caption":"Wooden pillars separators","url":"https://www.instagram.com/p/DPgC2mLExWD/?igsh=Zm1pMTNybGIydTU4","igType":"p","igId":"DPgC2mLExWD","kind":"post","space":"structure"},{"id":"16d3837862","date":"2025-10-07T20:49:15","who":"Zimi","caption":"Solid wooden furniture","url":"https://www.instagram.com/p/C4N6Iv8tsZr/?igsh=MWUzM3FsbDhuOWozNQ==","igType":"p","igId":"C4N6Iv8tsZr","kind":"post","space":"furniture"},{"id":"8599409f68","date":"2025-10-06T20:46:41","who":"Sumeet","mine":true,"caption":"Wooden mandir","url":"https://www.instagram.com/p/DC1hOeGgnLa/?igsh=MWg5aGYweHpuOGFjcA==","igType":"p","igId":"DC1hOeGgnLa","kind":"post","space":"mandir"},{"id":"f4fef5e04f","date":"2025-10-03T20:27:53","who":"Zimi","caption":"Window","url":"https://www.instagram.com/reel/DNqbTzpS4Cw/?igsh=MW1nM2Jua3ZwczI3ZQ==","igType":"reel","igId":"DNqbTzpS4Cw","kind":"reel","space":"openings"},{"id":"a1e9bd7583","date":"2025-10-03T18:18:32","who":"Zimi","caption":"Side garden","url":"https://www.instagram.com/reel/DMChmXto41C/?igsh=c3RsZmppbm84Zjcz","igType":"reel","igId":"DMChmXto41C","kind":"reel","space":"garden"},{"id":"4958bc8325","date":"2025-10-03T18:16:55","who":"Zimi","caption":"Kuhu and pihu room","url":"https://www.instagram.com/reel/DM9nKfzqoug/?igsh=MTBla2xveGxxZno2NQ==","igType":"reel","igId":"DM9nKfzqoug","kind":"reel","space":"kids"},{"id":"e5bf971be1","date":"2025-10-03T09:48:53","who":"Zimi","caption":"3D gallery wall","url":"https://www.instagram.com/reel/DIedI2QPSHX/?igsh=MWkyZmJzYXJnd3d6MQ==","igType":"reel","igId":"DIedI2QPSHX","kind":"reel","space":"walls"},{"id":"1edd719b87","date":"2025-10-02T23:17:07","who":"Zimi","caption":"Stair artwork","url":"https://www.instagram.com/reel/DIOqdTNt2Bz/?igsh=MXJuMm84bGRncnZvdw==","igType":"reel","igId":"DIOqdTNt2Bz","kind":"reel","space":"walls"},{"id":"c758947451","date":"2025-10-02T23:15:00","who":"Zimi","caption":"Wall art","url":"https://www.instagram.com/reel/DPTieZAjVPe/?igsh=MTE5bDBnaWUwM3A0cA==","igType":"reel","igId":"DPTieZAjVPe","kind":"reel","space":"walls"},{"id":"89bdbc8ed7","date":"2025-10-02T23:09:25","who":"Zimi","caption":"Wall artwork","url":"https://www.instagram.com/reel/DLBKtBDNZCL/?igsh=MXRyOWRtNW5ocnVoOA==","igType":"reel","igId":"DLBKtBDNZCL","kind":"reel","space":"walls"},{"id":"05f20dbab1","date":"2025-10-02T22:54:49","who":"Zimi","caption":"Entrance ideas","url":"https://www.instagram.com/reel/DOV4vqKgltZ/?igsh=MnJrZTE0ZXVwaHVw","igType":"reel","igId":"DOV4vqKgltZ","kind":"reel","space":"entrance"},{"id":"2831e6cab9","date":"2025-10-02T14:21:49","who":"Zimi","caption":"May be reading area or some area","url":"https://www.instagram.com/reel/DM5PGoxIIoa/?igsh=NTFwZGh4NXdxanl5","igType":"reel","igId":"DM5PGoxIIoa","kind":"reel","space":"living"},{"id":"8fbbc8370e","date":"2025-10-01T21:14:37","who":"Zimi","caption":"Walk in wardrobes","url":"https://www.instagram.com/p/DGNFFz_MXYz/?igsh=bWhqdjE1Nzk2bXM=","igType":"p","igId":"DGNFFz_MXYz","kind":"post","space":"wardrobes"},{"id":"2b68902192","date":"2025-10-01T21:13:00","who":"Zimi","caption":"Pantry","url":"https://www.instagram.com/reel/DOcIvNODuz5/?igsh=MWE2dnRicm8yNTl4dw==","igType":"reel","igId":"DOcIvNODuz5","kind":"reel","space":"kitchen"},{"id":"3b8c01a527","date":"2025-10-01T20:57:14","who":"Zimi","caption":"Tropical view kitchen","url":"https://www.instagram.com/reel/DOlAqFfDwzX/?igsh=eWFzODh0c283ODkx","igType":"reel","igId":"DOlAqFfDwzX","kind":"reel","space":"kitchen"},{"id":"7ac1320216","date":"2025-10-01T06:46:48","who":"Sumeet","mine":true,"caption":"","url":"https://www.instagram.com/reel/DPLu-oaD0nR/?igsh=MWo3eWVxbGtiamJmZQ==","igType":"reel","igId":"DPLu-oaD0nR","kind":"reel","space":"unsorted"},{"id":"6b075fad45","date":"2025-09-30T23:02:32","who":"Zimi","caption":"Arches and paintings","url":"https://www.instagram.com/p/DOdzYHyiZZ8/?igsh=aG84aDNzenZ6bGRv","igType":"p","igId":"DOdzYHyiZZ8","kind":"post","space":"structure"},{"id":"c8ffdb188a","date":"2025-09-30T22:59:00","who":"Zimi","caption":"Kitchen organizer","url":"https://www.instagram.com/reel/DO-2Kb2DJw6/?igsh=YzJlODRqbmNhODl5","igType":"reel","igId":"DO-2Kb2DJw6","kind":"reel","space":"kitchen"},{"id":"5ea08ef71c","date":"2025-09-30T22:55:12","who":"Zimi","caption":"","photo":"photos/00000029-PHOTO-2025-09-30-22-55-12.jpg","kind":"photo","space":"unsorted"},{"id":"d28b3a7f7b","date":"2025-09-30T22:53:45","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DOFk-VPkkSw/?igsh=NzNkZTRuazlqMWo=","igType":"reel","igId":"DOFk-VPkkSw","kind":"reel","space":"unsorted"},{"id":"0afd6d14e6","date":"2025-09-30T22:52:38","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DOM5aTJDRjH/?igsh=MXdkZ2l0MzE1Yjd3","igType":"reel","igId":"DOM5aTJDRjH","kind":"reel","space":"unsorted"},{"id":"fc4cb1e1fc","date":"2025-09-30T22:51:17","who":"Zimi","caption":"","url":"https://www.instagram.com/p/DO70zN4CVbu/?img_index=9&igsh=aHptZGt6dWVsaDg2","igType":"p","igId":"DO70zN4CVbu","kind":"post","space":"unsorted"},{"id":"253f2324fe","date":"2025-09-30T22:31:13","who":"Zimi","caption":"","url":"https://www.instagram.com/p/DOk95PbkkSh/?img_index=7&igsh=bjNlb25keXZ0cDlr","igType":"p","igId":"DOk95PbkkSh","kind":"post","space":"unsorted"},{"id":"2dadf9c3b7","date":"2025-09-30T22:26:07","who":"Zimi","caption":"","url":"https://www.instagram.com/p/DPKaN24iNV7/?img_index=13&igsh=MXJlaWJrbGp3cmJ1NQ==","igType":"p","igId":"DPKaN24iNV7","kind":"post","space":"unsorted"},{"id":"01df7535df","date":"2025-08-31T17:41:21","who":"Zimi","caption":"","photo":"photos/00000023-PHOTO-2025-08-31-17-41-21.jpg","kind":"photo","space":"unsorted"},{"id":"264e4e0aa4","date":"2025-05-11T23:23:43","who":"Zimi","caption":"Springs 2, 3br villa \nLowest per sq ft - 900\n2023 per sq ft - 1080\nLast 3 years avg - 1200\n\n3500 sq ft\n3.15 - 3.8 - 4.2 mm\n\n4000 sq ft\n3.6 - 4.3 - 4.8 mm\n\n4500 sq ft\n4.05 - 4.86 - 5.4 mm","kind":"note","space":"notes"},{"id":"3064275cbd","date":"2025-04-04T14:53:50","who":"Zimi","caption":"Nepal furniture and home decor handmade","photo":"photos/00000021-PHOTO-2025-04-04-14-53-50.jpg","kind":"photo","space":"furniture"},{"id":"b397db6696","date":"2024-11-29T17:02:05","who":"Zimi","caption":"","url":"https://www.chalkmytheme.com/products/set-of-3-enormous-heritage-wood-print-wall-art?utm_source=facebook&utm_medium=paid&campaign_id=6632047487332&ad_id=6632047837332","kind":"link","space":"designers"},{"id":"e02ce69a0a","date":"2024-11-17T10:00:34","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/C_17EKqK--p/?igsh=MXIzNmRieGI4d2c2dA==","igType":"reel","igId":"C_17EKqK--p","kind":"reel","space":"unsorted"},{"id":"f4bc499e32","date":"2024-11-16T14:10:18","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DBvaXl_TnnR/?igsh=Mjh1dTRuMDVtcXZs","igType":"reel","igId":"DBvaXl_TnnR","kind":"reel","space":"unsorted"},{"id":"5e5a213ce8","date":"2024-11-16T14:08:04","who":"Zimi","caption":"","url":"https://www.instagram.com/reel/DCYt9lfzQQe/?igsh=cnQ2dmU2dGp5bTBr","igType":"reel","igId":"DCYt9lfzQQe","kind":"reel","space":"unsorted"},{"id":"747bd81bec","date":"2024-11-16T09:21:37","who":"Zimi","caption":"Daughters lounge","url":"https://www.instagram.com/reel/DCYFC7OSsHs/?igsh=MWM2bmg4MDFlNjZhOQ==","igType":"reel","igId":"DCYFC7OSsHs","kind":"reel","space":"kids"},{"id":"8b097b7ba3","date":"2024-04-28T23:39:21","who":"Zimi","caption":"","photo":"photos/00000015-PHOTO-2024-04-28-23-39-21.jpg","kind":"photo","space":"villa"},{"id":"83a3585155","date":"2024-04-28T23:38:53","who":"Zimi","caption":"","photo":"photos/00000014-PHOTO-2024-04-28-23-38-53.jpg","kind":"photo","space":"villa"},{"id":"3a804fc6c2","date":"2024-04-28T23:38:32","who":"Zimi","caption":"","photo":"photos/00000013-PHOTO-2024-04-28-23-38-32.jpg","kind":"photo","space":"villa"},{"id":"d7f1b9611a","date":"2024-04-28T23:38:10","who":"Zimi","caption":"","photo":"photos/00000012-PHOTO-2024-04-28-23-38-10.jpg","kind":"photo","space":"villa"},{"id":"79b3314bb7","date":"2024-04-28T23:37:47","who":"Zimi","caption":"","photo":"photos/00000011-PHOTO-2024-04-28-23-37-47.jpg","kind":"photo","space":"villa"},{"id":"6f587f5ae3","date":"2024-04-28T23:37:29","who":"Zimi","caption":"","photo":"photos/00000010-PHOTO-2024-04-28-23-37-29.jpg","kind":"photo","space":"villa"},{"id":"9b1644ac23","date":"2024-04-28T23:37:11","who":"Zimi","caption":"","photo":"photos/00000009-PHOTO-2024-04-28-23-37-11.jpg","kind":"photo","space":"villa"},{"id":"55aba0412f","date":"2024-04-28T23:36:47","who":"Zimi","caption":"","photo":"photos/00000008-PHOTO-2024-04-28-23-36-47.jpg","kind":"photo","space":"villa"},{"id":"4c27aef1d4","date":"2024-04-28T23:36:15","who":"Zimi","caption":"","photo":"photos/00000007-PHOTO-2024-04-28-23-36-15.jpg","kind":"photo","space":"villa"},{"id":"7bc657edb2","date":"2024-04-28T23:35:08","who":"Zimi","caption":"","photo":"photos/00000006-PHOTO-2024-04-28-23-35-08.jpg","kind":"photo","space":"villa"},{"id":"170e4b787f","date":"2024-04-28T23:34:30","who":"Zimi","caption":"","photo":"photos/00000005-PHOTO-2024-04-28-23-34-30.jpg","kind":"photo","space":"villa"},{"id":"0306341f76","date":"2024-04-28T23:34:04","who":"Zimi","caption":"","photo":"photos/00000004-PHOTO-2024-04-28-23-34-04.jpg","kind":"photo","space":"villa"}];
+const SP={
+ villa:{label:'The Villa',desc:'the home',cover:'photos/00000004-PHOTO-2024-04-28-23-34-04.jpg',accent:'--brass'},
+ entrance:{label:'Entrance & Foyer',accent:'--brass'},
+ living:{label:'Living & Lounge',cover:'photos/00000008-PHOTO-2024-04-28-23-36-47.jpg',accent:'--blush'},
+ mandir:{label:'Mandir',accent:'--brass'},
+ dining:{label:'Dining & Bar',cover:'photos/00000015-PHOTO-2024-04-28-23-39-21.jpg',accent:'--blush'},
+ kitchen:{label:'Kitchen & Pantry',cover:'photos/00000006-PHOTO-2024-04-28-23-35-08.jpg',accent:'--sage'},
+ bedrooms:{label:'Bedrooms',cover:'photos/00000009-PHOTO-2024-04-28-23-37-11.jpg',accent:'--blush'},
+ kids:{label:"Kids' Rooms",cover:'photos/00000013-PHOTO-2024-04-28-23-38-32.jpg',accent:'--blush'},
+ wardrobes:{label:'Wardrobes & Storage',cover:'photos/00000011-PHOTO-2024-04-28-23-37-47.jpg',accent:'--sage'},
+ bathrooms:{label:'Bathrooms',cover:'photos/00000010-PHOTO-2024-04-28-23-37-29.jpg',accent:'--sage'},
+ terrace:{label:'Terrace',cover:'photos/00000007-PHOTO-2024-04-28-23-36-15.jpg',accent:'--sage'},
+ garden:{label:'Backyard & Garden',cover:'photos/00000138-PHOTO-2026-07-26-08-14-20.jpg',accent:'--sage'},
+ pool:{label:'Pool',accent:'--sage'},
+ palette:{label:'Palette & Mood',cover:'photos/00000132-PHOTO-2026-07-18-17-20-08.jpg',accent:'--blush'},
+ walls:{label:'Walls & Art',accent:'--blush'},
+ lighting:{label:'Lighting',cover:'photos/00000127-PHOTO-2026-07-13-20-04-56.jpg',accent:'--brass'},
+ tiles:{label:'Tiles & Flooring',accent:'--brass'},
+ openings:{label:'Doors, Windows & Drapes',accent:'--brass'},
+ furniture:{label:'Furniture',cover:'photos/00000135-PHOTO-2026-07-22-08-28-20.jpg',accent:'--sage'},
+ structure:{label:'Columns, Arches & Partitions',accent:'--brass'},
+ designers:{label:'Designers & Vendors',accent:'--ink2'},
+ notes:{label:'Notes & Numbers',accent:'--ink2'},
+ unsorted:{label:'Inbox',accent:'--line'}
+};
+const ORDER=['villa','entrance','living','mandir','dining','kitchen','bedrooms','kids','wardrobes','bathrooms','terrace','garden','pool','palette','walls','lighting','tiles','openings','furniture','structure','designers','notes','unsorted'];
+const ICONS={
+ villa:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+ entrance:'<rect x="6" y="3" width="12" height="18" rx="1"/><path d="M6 3q6 -3 12 0"/><circle cx="14.5" cy="12" r="1"/>',
+ living:'<path d="M4 12V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/><path d="M3 12a2 2 0 0 1 2 2v3h14v-3a2 2 0 0 1 2-2"/><path d="M6 20v-3M18 20v-3"/>',
+ mandir:'<path d="M12 3c2 3 3 4 3 7a3 3 0 0 1-6 0c0-1 .6-2 1.2-2.6"/><path d="M7 21h10M8 17h8"/>',
+ dining:'<path d="M8 3h8l-1 6a3 3 0 0 1-6 0z"/><path d="M12 9v9M8 21h8"/>',
+ kitchen:'<path d="M5 10h14v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/>',
+ bedrooms:'<path d="M3 17v-5a2 2 0 0 1 2-2h9a3 3 0 0 1 3 3v4"/><path d="M3 17h18M3 13V7M21 17v-2"/>',
+ kids:'<path d="M12 3l2 5 5 .5-4 3.5 1.3 5L12 14l-4.3 3 1.3-5-4-3.5 5-.5z"/>',
+ wardrobes:'<path d="M12 4a1.6 1.6 0 1 0-1.4 1.6H12v2"/><path d="M4 20l8-11 8 11z"/>',
+ bathrooms:'<path d="M5 11V6a2 2 0 0 1 4 0"/><path d="M3 11h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"/><path d="M7 18l-1 2M17 18l1 2"/>',
+ terrace:'<circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>',
+ garden:'<path d="M12 21v-7"/><path d="M12 14c-3 0-5-2-5-5 3 0 5 2 5 5z"/><path d="M12 12c3 0 5-2 5-5-3 0-5 2-5 5z"/>',
+ pool:'<path d="M3 15c2 0 2 2 4.5 2S10 15 12 15s2 2 4.5 2S19 15 21 15"/><path d="M3 19c2 0 2 2 4.5 2S10 19 12 19s2 2 4.5 2S19 19 21 19"/><path d="M8 12V6M16 12V6M8 8h8"/>',
+ palette:'<path d="M12 3a9 9 0 1 0 0 18c1 0 1.4-1 .9-2s0-2 1.6-2H18a3 3 0 0 0 3-3c0-5-4-9-9-9z"/><circle cx="8" cy="10" r="1"/><circle cx="12" cy="7" r="1"/><circle cx="16" cy="10" r="1"/>',
+ walls:'<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M8 15l3-4 2 2 3-4"/>',
+ lighting:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 0 0-4-10z"/>',
+ tiles:'<rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/>',
+ openings:'<rect x="5" y="3" width="14" height="18" rx="1"/><path d="M5 3q7 -3 14 0"/><path d="M12 4v17M5 12h14"/>',
+ furniture:'<path d="M6 11V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v5"/><path d="M6 11h11a2 2 0 0 1 2 2v3H6z"/><path d="M6 16v3M17 16v3"/>',
+ structure:'<path d="M6 21V8M18 21V8"/><path d="M4 8q8 -6 16 0"/><path d="M4 21h16"/>',
+ designers:'<path d="M12 3l7 4v6l-7 4-7-4V7z"/><path d="M12 3v18"/>',
+ notes:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/>',
+ unsorted:'<path d="M3 13l3-8h12l3 8"/><path d="M3 13v6h18v-6"/><path d="M3 13h5l1 2h6l1-2h5"/>',
+ default:'<path d="M5 20V10q7 -6 14 0v10"/>'};
+function icon(id){return `<span class="gi"><svg viewBox="0 0 24 24">${ICONS[id]||ICONS.default}</svg></span>`}
+const GRAD={'--blush':'linear-gradient(155deg,#7a4b46,#2a2014)','--sage':'linear-gradient(155deg,#4f5a41,#2a2014)','--brass':'linear-gradient(155deg,#6b5327,#2a2014)','--ink2':'linear-gradient(155deg,#4a4030,#2a2014)','--line':'linear-gradient(155deg,#5a4d38,#2a2014)'};
+function gradOf(id){return GRAD[(SP[id]||{}).accent]||GRAD['--sage']}
+function accentCol(id){return `var(${(SP[id]||{}).accent||'--sage'})`}
+
+/* storage */
+const KEY='mdh_sboard_v1';let mem=null;
+function load(){try{const r=localStorage.getItem(KEY);return r?JSON.parse(r):{over:{},add:[],del:[]}}catch(e){return mem||(mem={over:{},add:[],del:[]})}}
+function save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){mem=s}}
+let STATE=load();
+function allItems(){const del=new Set(STATE.del||[]);return [...SEED,...(STATE.add||[])].filter(i=>!del.has(i.id)).map(i=>{const o=(STATE.over||{})[i.id]||{};return {...i,...o,shortlist:o.shortlist!==undefined?o.shortlist:!!i.shortlist,space:o.space||i.space,notes:o.notes!==undefined?o.notes:(i.notes||'')}})}
+function setOver(id,p){STATE.over=STATE.over||{};STATE.over[id]={...(STATE.over[id]||{}),...p};save(STATE)}
+const $=s=>document.querySelector(s);
+const initials=w=>w==='Zimi'?'Z':'S';
+function imgOf(i){return i.photo||i.thumb||null}
+function roomItems(id,slOnly){let a=allItems().filter(i=>i.space===id);if(slOnly)a=a.filter(i=>i.shortlist);a.sort((x,y)=>(y.shortlist?1:0)-(x.shortlist?1:0)||(y.date||'').localeCompare(x.date||''));return a}
+function counts(){const c={};allItems().forEach(i=>c[i.space]=(c[i.space]||0)+1);return c}
+function slCount(id){return allItems().filter(i=>i.space===id&&i.shortlist).length}
+
+/* ---- palette extraction (client, same-origin images) ---- */
+const palCache={};
+function hex(r,g,b){return '#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function extract(img){
+ try{
+  const w=38,h=46,c=document.createElement('canvas');c.width=w;c.height=h;
+  const ctx=c.getContext('2d');ctx.drawImage(img,0,0,w,h);const d=ctx.getImageData(0,0,w,h).data;
+  const buk={};
+  for(let i=0;i<d.length;i+=4){const r=d[i],g=d[i+1],b=d[i+2],a=d[i+3];if(a<200)continue;
+   const mx=Math.max(r,g,b),mn=Math.min(r,g,b);
+   if(mx<24||mn>238)continue; // drop near-black/near-white
+   const k=(r>>4)+','+(g>>4)+','+(b>>4);(buk[k]=buk[k]||{n:0,r:0,g:0,b:0});buk[k].n++;buk[k].r+=r;buk[k].g+=g;buk[k].b+=b;}
+  let arr=Object.values(buk).map(o=>({n:o.n,r:Math.round(o.r/o.n),g:Math.round(o.g/o.n),b:Math.round(o.b/o.n)})).sort((a,b)=>b.n-a.n);
+  const out=[];
+  for(const o of arr){if(out.length>=5)break;
+   if(out.some(p=>Math.abs(p.r-o.r)+Math.abs(p.g-o.g)+Math.abs(p.b-o.b)<46))continue;
+   out.push(o);}
+  return out.map(o=>hex(o.r,o.g,o.b));
+ }catch(e){return[]}
+}
+function roomPalette(id){
+ const cols=[];const cover=(SP[id]||{}).cover;if(cover&&palCache[cover])palCache[cover].forEach(c=>cols.push(c));
+ roomItems(id).forEach(it=>{const s=imgOf(it);if(s&&palCache[s])palCache[s].forEach(c=>cols.push(c));
+   if(Array.isArray(it.palette))it.palette.forEach(c=>cols.push(c));});
+ // dedupe by rounded hex distance
+ const uniq=[];cols.forEach(c=>{const m=c.match(/#?([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i);if(!m)return;const r=parseInt(m[1],16),g=parseInt(m[2],16),b=parseInt(m[3],16);
+   if(!uniq.some(u=>Math.abs(u.r-r)+Math.abs(u.g-g)+Math.abs(u.b-b)<40))uniq.push({r,g,b,hex:'#'+m[1]+m[2]+m[3]})});
+ return uniq.slice(0,6).map(u=>u.hex);
+}
+function roomMats(id){const t=new Set();roomItems(id).forEach(it=>(it.tags||[]).forEach(x=>t.add(x)));return [...t].slice(0,6)}
+function hookImgs(scope){
+ (scope||document).querySelectorAll('img.pex').forEach(img=>{
+   const src=img.getAttribute('src');if(!src||palCache[src])return;
+   const go=()=>{const p=extract(img);if(p.length){palCache[src]=p;const room=img.dataset.room;if(room)refreshPal(room)}};
+   if(img.complete&&img.naturalWidth)go();else img.addEventListener('load',go,{once:true});
+ });
+}
+function refreshPal(id){document.querySelectorAll(`[data-pal="${id}"]`).forEach(el=>{el.outerHTML=palHTML(id)});}
+function palHTML(id){
+ const p=roomPalette(id);
+ if(!p.length){const hasReel=roomItems(id).some(i=>(i.kind==='reel'||i.kind==='post')&&!i.summary&&i.igId);
+   return `<div class="palempty" data-pal="${id}">Palette appears once images load${hasReel?' — reels need a digest.':''}${hasReel?`<button onclick="backfill('${id}')">Fetch</button>`:''}</div>`;}
+ return `<div class="palstrip" data-pal="${id}">`+p.map(c=>`<div class="paint" style="background:${c}"><span>${c.replace('#','').toUpperCase()}</span></div>`).join('')+`</div>`;
+}
+
+/* ---- views ---- */
+let VIEW={name:'home',room:null,slOnly:false,q:''};
+function render(){
+ document.querySelectorAll('.iconbtn').forEach(b=>b.classList.remove('on'));
+ if(VIEW.name==='board')$('#boardBtn').classList.add('on');
+ if(VIEW.name==='search')$('#searchBtn').classList.add('on');
+ if(VIEW.name==='home')home();else if(VIEW.name==='room')roomView();else if(VIEW.name==='board')boardView();else search();
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function heartBtn(i){return `<button class="heart ${i.shortlist?'on':''}" data-heart="${i.id}"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.4 8.5 2 5 5.3 5c2 0 3.2 1.1 4.7 3 1.5-1.9 2.7-3 4.7-3C18 5 19.6 8.5 22 11.9 19.5 16.4 12 21 12 21z"/></svg></button>`}
+function sboard(id,{full=false}={}){
+ const its=roomItems(id,VIEW.slOnly&&full);const all=roomItems(id);const s=SP[id];const sl=slCount(id);
+ const heroItem=its.find(i=>i.shortlist&&imgOf(i))||its.find(i=>imgOf(i))||null;
+ const heroSrc=heroItem?imgOf(heroItem):(s.cover||null);
+ const rest=its.filter(i=>i!==heroItem);
+ const swN=full?rest.length:Math.min(rest.length,4);
+ const sws=rest.slice(0,swN).map(it=>`<div class="swtile" data-open="${it.id}">${imgOf(it)?`<img class="pex" data-room="${id}" src="${imgOf(it)}">`:`<div class="ph" style="--pg:${gradOf(id)}">${icon(id)}</div>`}${it.caption?`<div class="cp">${it.caption}</div>`:''}</div>`).join('');
+ const moreN=rest.length-swN;const moreTile=(!full&&moreN>0)?`<div class="swtile more" data-room-open="${id}">+${moreN}</div>`:'';
+ const mats=roomMats(id);
+ const heroHTML=`<div class="hero" data-open="${heroItem?heroItem.id:''}" data-room-open="${heroItem?'':id}">${heroSrc?`<img class="pex" data-room="${id}" src="${heroSrc}">`:`<div class="ph" style="--pg:${gradOf(id)}">${icon(id)}</div>`}${heroItem?heartBtn(heroItem):''}</div>`;
+ return `<div class="kraft"><div class="sboard"><span class="tapelbl">${s.label}</span><span class="bmeta" data-room-open="${id}"><b>${all.length}</b> ideas${sl?` · ${sl} ♥`:''} · open ›</span>${heroHTML}<div class="swatches">${sws}${moreTile}</div>${palHTML(id)}${mats.length?`<div class="mats">${mats.map(m=>`<span class="mat">${m}</span>`).join('')}</div>`:''}</div></div>`;
+}
+function home(){
+ const c=counts();const tot=allItems().length;const sl=allItems().filter(i=>i.shortlist).length;
+ let h=`<section class="intro"><div class="eyebrow">Al Furjan · Dubai</div>
+   <h1>Our home,<br>board by <em>board</em>.</h1>
+   <p>Every idea from your chat, composed into interior-designer sample boards — a hero, swatches and the palette pulled from the images.</p>
+   <div class="stat"><span><b>${tot}</b>ideas</span><span><b>${sl}</b>shortlisted</span><span><b>${ORDER.filter(x=>c[x]).length}</b>rooms</span></div></section>`;
+ ORDER.filter(id=>c[id]).forEach(id=>h+=sboard(id));
+ h+=`<div style="height:60px"></div>`;
+ $('#main').innerHTML=h;wire();
+}
+function roomView(){
+ const id=VIEW.room;const s=SP[id];const its=roomItems(id,VIEW.slOnly);const all=roomItems(id);
+ let h=`<button class="backbtn" id="back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>All boards</button>`;
+ h+=sboard(id,{full:false});
+ h+=`<div class="rtools">
+   <button class="pill ${VIEW.slOnly?'on':''}" id="slOnly"><svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.1C.4 8.5 2 5 5.3 5c2 0 3.2 1.1 4.7 3 1.5-1.9 2.7-3 4.7-3C18 5 19.6 8.5 22 11.9 19.5 16.4 12 21 12 21z"/></svg>Shortlisted</button>
+   <span class="rcount">${its.length} of ${all.length}</span></div>`;
+ h+=`<div class="tilegrid" id="tiles"></div><div style="height:60px"></div>`;
+ $('#main').innerHTML=h;
+ const g=$('#tiles');
+ if(!its.length)g.outerHTML=`<div class="empty"><div class="big">${VIEW.slOnly?'Nothing shortlisted here':'Empty room'}</div>Add an idea and choose this room.</div>`;
+ else its.forEach(it=>{const el=document.createElement('div');el.className='tile';const s2=imgOf(it);
+   el.innerHTML=`${heartBtn(it)}${s2?`<img class="pex" data-room="${id}" src="${s2}">`:`<div class="ph" style="--pg:${gradOf(id)}">${icon(id)}<span class="kindtag">${it.kind}</span></div>`}<div class="cp">${it.caption||'Untitled'}</div><div class="wh"><span class="dot ${initials(it.who)}">${initials(it.who)}</span> ${it.who}</div>`;
+   el.querySelector('img,.ph')?.addEventListener('click',()=>openDetail(it.id));
+   el.querySelector('.cp').onclick=()=>openDetail(it.id);
+   g.appendChild(el);});
+ $('#back').onclick=()=>{VIEW.name='home';render()};
+ $('#slOnly').onclick=()=>{VIEW.slOnly=!VIEW.slOnly;render()};
+ wire();
+}
+function boardView(){
+ const sl=allItems().filter(i=>i.shortlist);
+ let h=`<button class="backbtn" id="back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>All boards</button>
+   <section class="intro" style="padding-top:2px"><div class="eyebrow">For design day</div><h1 style="font-size:clamp(26px,6vw,42px)">The <em>shortlist</em>.</h1>
+   <p>${sl.length?`${sl.length} idea${sl.length>1?'s':''} you love — as boards to hand the architect.`:'Tap ♥ on ideas and they compose here, room by room.'}</p></section>`;
+ const c={};sl.forEach(i=>c[i.space]=(c[i.space]||0)+1);
+ const rooms=ORDER.filter(id=>c[id]);
+ if(!rooms.length){$('#main').innerHTML=h+'<div style="height:50px"></div>';$('#back').onclick=()=>{VIEW.name='home';render()};return}
+ const _si=VIEW.slOnly;VIEW.slOnly=true;
+ rooms.forEach(id=>h+=sboard(id,{full:true}));
+ VIEW.slOnly=_si;
+ $('#main').innerHTML=h+'<div style="height:50px"></div>';
+ $('#back').onclick=()=>{VIEW.name='home';render()};wire();
+}
+function search(){
+ const q=VIEW.q.toLowerCase().trim();let a=allItems();
+ if(q)a=a.filter(i=>((i.caption||'')+' '+(SP[i.space]||{}).label+' '+i.who+' '+(i.notes||'')+' '+((i.tags||[]).join(' '))).toLowerCase().includes(q));
+ a.sort((x,y)=>(y.date||'').localeCompare(x.date||''));
+ let h=`<button class="backbtn" id="back"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>All boards</button>
+  <section class="intro" style="padding-top:2px"><div class="eyebrow">Search</div><h1 style="font-size:clamp(24px,6vw,38px)">${q?`“${VIEW.q}”`:'Find anything'}</h1><p>${a.length} idea${a.length!==1?'s':''}</p></section>
+  <div class="tilegrid" id="tiles"></div><div style="height:50px"></div>`;
+ $('#main').innerHTML=h;const g=$('#tiles');
+ if(!a.length)g.outerHTML=`<div class="empty"><div class="big">Nothing found</div>Try a room, a colour, or who shared it.</div>`;
+ else a.forEach(it=>{const el=document.createElement('div');el.className='tile';const s2=imgOf(it);
+   el.innerHTML=`${heartBtn(it)}${s2?`<img class="pex" data-room="${it.space}" src="${s2}">`:`<div class="ph" style="--pg:${gradOf(it.space)}">${icon(it.space)}<span class="kindtag">${it.kind}</span></div>`}<div class="cp">${it.caption||'Untitled'}</div><div class="wh">${(SP[it.space]||{}).label||''}</div>`;
+   el.onclick=e=>{if(!e.target.closest('[data-heart]'))openDetail(it.id)};g.appendChild(el);});
+ $('#back').onclick=()=>{VIEW.name='home';$('#searchwrap').classList.remove('open');render()};wire();
+}
+function wire(){
+ hookImgs($('#main'));
+ $('#main').querySelectorAll('[data-heart]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.heart;const now=!allItems().find(x=>x.id===id).shortlist;setOver(id,{shortlist:now});b.classList.toggle('on',now);toast(now?'Shortlisted ♥':'Removed')});
+ $('#main').querySelectorAll('[data-room-open]').forEach(b=>b.onclick=e=>{e.stopPropagation();VIEW={name:'room',room:b.dataset.roomOpen,slOnly:false,q:''};render()});
+ $('#main').querySelectorAll('[data-open]').forEach(b=>{const id=b.dataset.open;if(!id)return;b.addEventListener('click',e=>{if(e.target.closest('[data-heart]')||e.target.closest('[data-room-open]'))return;openDetail(id)})});
+}
+
+/* ---- detail ---- */
+function digestHTML(i){
+ if(i.summary)return `<div class="digest"><div class="lb">Digest</div><p>${i.summary}</p><div class="chips">${(i.palette||[]).map(c=>`<span class="swatchbig" style="background:${c}"></span>`).join('')}${(i.tags||[]).map(t=>`<span class="tagchip">${t}</span>`).join('')}</div></div>`;
+ if(i.igId)return `<div class="digest"><div class="lb">Digest</div><p style="color:var(--ink2)">Pull the cover, palette and a summary from this reel.</p><button class="btn dark mini" id="dFetch">✦ Fetch digest</button></div>`;
+ return '';
+}
+function openDetail(id){
+ const i=allItems().find(x=>x.id===id);if(!i)return;const el=$('#detIn');const s=imgOf(i);
+ const picks=Object.keys(SP).filter(k=>k!=='villa'||i.space==='villa');
+ el.innerHTML=`<div class="grab"></div>
+  <div class="det-hero">${s?`<img src="${s}">`:`<div class="ph" style="aspect-ratio:4/5;--pg:${gradOf(i.space)}">${icon(i.space)}</div>`}</div>
+  ${i.url?`<a class="link-out" href="${i.url}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/><path d="M14 4h6v6M20 4l-9 9"/></svg>Open in Instagram</a>`:''}
+  <div id="digestArea"></div>
+  <div class="dmeta"><span class="who"><span class="dot ${initials(i.who)}">${initials(i.who)}</span>${i.who}</span></div>
+  <div class="field"><label>What is it?</label><input id="dCap" type="text" value="${(i.caption||'').replace(/"/g,'&quot;')}" placeholder="Name this idea"></div>
+  <div class="field"><label>Room</label><div class="spacepick" id="dSpaces"></div></div>
+  <div class="field"><label>Notes for design day</label><textarea id="dNotes" placeholder="Where would this go? Any changes?">${i.notes||''}</textarea></div>
+  <div class="rowbtns"><button class="btn" id="dStar">${i.shortlist?'♥ Shortlisted':'♡ Add to shortlist'}</button></div>
+  <div class="rowbtns" style="margin-top:10px"><button class="btn dark" id="dSave">Save</button><button class="btn danger" id="dDel">Remove</button></div>`;
+ const sp=el.querySelector('#dSpaces');let pick=i.space;
+ picks.forEach(k=>{const b=document.createElement('button');b.innerHTML=`<span class="sw" style="background:${accentCol(k)}"></span>${SP[k].label}`;b.className=k===pick?'sel':'';b.onclick=()=>{pick=k;sp.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')};sp.appendChild(b)});
+ const da=el.querySelector('#digestArea');da.innerHTML=digestHTML(i);const fb=da.querySelector('#dFetch');if(fb)fb.onclick=()=>fetchDigest(id);
+ el.querySelector('#dStar').onclick=()=>{const now=!allItems().find(x=>x.id===id).shortlist;setOver(id,{shortlist:now});openDetail(id)};
+ el.querySelector('#dSave').onclick=()=>{setOver(id,{caption:el.querySelector('#dCap').value.trim(),space:pick,notes:el.querySelector('#dNotes').value});closeSheets();render();toast('Saved')};
+ el.querySelector('#dDel').onclick=()=>{if(confirm('Remove this idea?')){STATE.del=STATE.del||[];STATE.del.push(id);save(STATE);closeSheets();render();toast('Removed')}};
+ showSheet('#detSheet');
+}
+
+/* ---- ingest / digest / backfill ---- */
+function parseIg(u){const m=(u||'').match(/instagram\.com\/(reel|p|tv)\/([A-Za-z0-9_\-]+)/);return m?{t:m[1],id:m[2]}:null}
+async function ingest(url){const r=await fetch('/api/ingest',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url})});return await r.json()}
+async function fetchDigest(id){
+ const i=allItems().find(x=>x.id===id);if(!i||!i.igId)return;const area=$('#digestArea');
+ if(area)area.innerHTML='<div class="digest"><div class="lb">Digest</div><p><span class="spin"></span>Reading the reel…</p></div>';
+ try{const dg=await ingest(i.url);if(dg.error||(!dg.summary&&!dg.thumb))throw 0;
+  setOver(id,{thumb:dg.thumb||i.thumb,summary:dg.summary||'',tags:dg.tags||[],palette:dg.palette||[],caption:i.caption||dg.title||''});openDetail(id);render();toast('Digest ready ✦');
+ }catch(e){if(area)area.innerHTML='<div class="digest"><div class="lb">Digest</div><p style="color:var(--ink2)">Couldn’t fetch — set API keys in Vercel (README), then retry.</p></div>';toast('Digest unavailable')}
+}
+async function backfill(onlyRoom){
+ let t=allItems().filter(i=>(i.kind==='reel'||i.kind==='post')&&!i.summary&&i.igId);
+ if(onlyRoom)t=t.filter(i=>i.space===onlyRoom);
+ if(!t.length){toast('Nothing to fetch');return}
+ const P=$('#prog'),PT=$('#progTxt'),PB=$('#progBar');P.classList.add('show');
+ let ok=0,fail=0;
+ for(let k=0;k<t.length;k++){PT.textContent=`Reading reels… ${k+1}/${t.length}`;PB.style.width=((k)/t.length*100)+'%';
+  try{const dg=await ingest(t[k].url);if(dg.error||(!dg.summary&&!dg.thumb)){fail++;if(ok===0&&fail>=2){toast('Backfill needs API keys in Vercel');break}}
+   else{setOver(t[k].id,{thumb:dg.thumb||null,summary:dg.summary||'',tags:dg.tags||[],palette:dg.palette||[],caption:t[k].caption||dg.title||''});ok++}
+  }catch(e){fail++;if(ok===0){toast('Backfill needs API keys in Vercel');break}}
+  await new Promise(r=>setTimeout(r,220));
+ }
+ PB.style.width='100%';setTimeout(()=>P.classList.remove('show'),400);render();toast(`Digests: ${ok} added${fail?`, ${fail} skipped`:''}`);
+}
+window.backfill=backfill;
+
+/* ---- add ---- */
+function buildAdd(){const sp=$('#addSpaces');sp.innerHTML='';window._ap='unsorted';
+ Object.keys(SP).filter(k=>k!=='villa'&&k!=='notes').forEach(k=>{const b=document.createElement('button');b.innerHTML=`<span class="sw" style="background:${accentCol(k)}"></span>${SP[k].label}`;if(k==='unsorted')b.classList.add('sel');
+  b.onclick=()=>{window._ap=k;sp.querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')};sp.appendChild(b)});}
+async function addIdea(){const url=$('#addUrl').value.trim();const g=parseIg(url);if(!g){toast('Paste a valid Instagram link');return}
+ const who=$('#addWho').querySelector('.sel').dataset.w;const btn=$('#addSave');btn.disabled=true;const old=btn.innerHTML;btn.innerHTML='<span class="spin"></span>Reading…';
+ let dg={};try{dg=await ingest(url)}catch(e){}
+ const chosen=(window._ap&&window._ap!=='unsorted')?window._ap:(dg.room||'unsorted');
+ const it={id:'u'+Date.now().toString(36),date:new Date().toISOString(),who,mine:who==='Sumeet',caption:$('#addCap').value.trim()||dg.title||'',url,igType:g.t,igId:g.id,photo:null,kind:g.t==='p'?'post':'reel',space:chosen,thumb:dg.thumb||null,summary:dg.summary||'',tags:dg.tags||[],palette:dg.palette||[],shortlist:false,notes:''};
+ STATE.add=STATE.add||[];STATE.add.push(it);save(STATE);$('#addUrl').value='';$('#addCap').value='';btn.disabled=false;btn.innerHTML=old;
+ closeSheets();VIEW={name:'room',room:it.space,slOnly:false,q:''};render();toast(dg.summary?'Added with digest ✦':'Added — Fetch digests to enrich');}
+
+/* ---- sheets / misc ---- */
+function showSheet(sel){$('#scrim').classList.add('show');$(sel).classList.add('show');document.body.style.overflow='hidden'}
+function closeSheets(){document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));$('#scrim').classList.remove('show');document.body.style.overflow=''}
+$('#scrim').onclick=closeSheets;
+let tt;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),1800)}
+$('#brand').onclick=()=>{VIEW={name:'home',room:null,slOnly:false,q:''};render()};
+$('#searchBtn').onclick=()=>{const w=$('#searchwrap');w.classList.toggle('open');if(w.classList.contains('open'))$('#q').focus();else if(VIEW.name==='search'){VIEW.name='home';render()}};
+$('#q').oninput=e=>{VIEW.q=e.target.value;VIEW.name='search';render()};
+$('#boardBtn').onclick=()=>{VIEW.name=VIEW.name==='board'?'home':'board';render()};
+$('#menuBtn').onclick=()=>showSheet('#menuSheet');
+$('#fab').onclick=()=>{buildAdd();showSheet('#addSheet')};
+$('#addSave').onclick=addIdea;
+$('#addWho').querySelectorAll('button').forEach(b=>b.onclick=()=>{$('#addWho').querySelectorAll('button').forEach(x=>x.classList.remove('sel'));b.classList.add('sel')});
+$('#backfillBtn').onclick=()=>{closeSheets();backfill()};
+$('#printBtn').onclick=()=>{closeSheets();VIEW.name='board';render();setTimeout(()=>window.print(),350)};
+$('#exportBtn').onclick=()=>{const d=allItems().filter(i=>i.shortlist||i.notes).map(i=>({caption:i.caption,room:(SP[i.space]||{}).label,who:i.who,url:i.url,shortlist:i.shortlist,notes:i.notes,palette:i.palette}));const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='dream-home-shortlist.json';a.click();closeSheets();toast('Exported '+d.length)};
+$('#resetBtn').onclick=()=>{if(confirm('Reset shortlists, notes, digests and added ideas to the original chat?')){STATE={over:{},add:[],del:[]};save(STATE);closeSheets();VIEW={name:'home',room:null,slOnly:false,q:''};render();toast('Reset done')}};
+
+(function(){const p=new URLSearchParams(location.search);const shared=[p.get('url'),p.get('text'),p.get('title')].filter(Boolean).join(' ');const g=parseIg(shared);
+ if(g){const it={id:'u'+Date.now().toString(36),date:new Date().toISOString(),who:'Sumeet',mine:true,caption:'',url:'https://www.instagram.com/'+g.t+'/'+g.id+'/',igType:g.t,igId:g.id,photo:null,kind:g.t==='p'?'post':'reel',space:'unsorted',shortlist:false,notes:''};
+  STATE.add=STATE.add||[];STATE.add.push(it);save(STATE);history.replaceState({},'',location.pathname);
+  setTimeout(async()=>{try{const dg=await ingest(it.url);if(dg&&!dg.error)setOver(it.id,{thumb:dg.thumb||null,summary:dg.summary||'',tags:dg.tags||[],palette:dg.palette||[],space:dg.room||'unsorted',caption:dg.title||''})}catch(e){}VIEW={name:'room',room:'unsorted',slOnly:false,q:''};render();toast('Saved from share')},150);}
+})();
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>
